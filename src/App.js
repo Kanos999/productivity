@@ -18,6 +18,8 @@ function App() {
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
 
+  console.log(app);
+
   return (
     <div className="App">
       <Main />
