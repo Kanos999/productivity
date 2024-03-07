@@ -1,0 +1,53 @@
+[debug] [2024-03-07T22:36:35.880Z] ----------------------------------------------------------------------
+[debug] [2024-03-07T22:36:35.882Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\kaneh\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2024-03-07T22:36:35.883Z] CLI Version:   13.4.0
+[debug] [2024-03-07T22:36:35.883Z] Platform:      win32
+[debug] [2024-03-07T22:36:35.883Z] Node Version:  v18.13.0
+[debug] [2024-03-07T22:36:35.884Z] Time:          Fri Mar 08 2024 09:36:35 GMT+1100 (Australian Eastern Daylight Time)
+[debug] [2024-03-07T22:36:35.884Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-03-07T22:36:35.893Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-03-07T22:36:35.893Z] > authorizing via signed-in user (kane.h.jackson@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\kaneh\Documents\productivity-stats
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[debug] [2024-03-07T22:36:41.734Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=100
+[debug] [2024-03-07T22:36:42.843Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2024-03-07T22:36:42.843Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] i  Using project productivity-345ab (Productivity) 
+[info] 
+=== Database Setup
+[info] i  database: ensuring required API firebasedatabase.googleapis.com is enabled... 
+[debug] [2024-03-07T22:36:45.784Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/productivity-345ab/services/firebasedatabase.googleapis.com [none]
+[debug] [2024-03-07T22:36:45.784Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/productivity-345ab/services/firebasedatabase.googleapis.com x-goog-quota-user=projects/productivity-345ab
+[debug] [2024-03-07T22:36:46.308Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/productivity-345ab/services/firebasedatabase.googleapis.com 200
+[debug] [2024-03-07T22:36:46.308Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/productivity-345ab/services/firebasedatabase.googleapis.com [omitted]
+[warn] !  database: missing required API firebasedatabase.googleapis.com. Enabling now... 
+[debug] [2024-03-07T22:36:46.310Z] >>> [apiv2][query] POST https://serviceusage.googleapis.com/v1/projects/productivity-345ab/services/firebasedatabase.googleapis.com:enable [none]
+[debug] [2024-03-07T22:36:46.310Z] >>> [apiv2][(partial)header] POST https://serviceusage.googleapis.com/v1/projects/productivity-345ab/services/firebasedatabase.googleapis.com:enable x-goog-quota-user=projects/productivity-345ab
+[debug] [2024-03-07T22:36:47.932Z] <<< [apiv2][status] POST https://serviceusage.googleapis.com/v1/projects/productivity-345ab/services/firebasedatabase.googleapis.com:enable 200
+[debug] [2024-03-07T22:36:47.932Z] <<< [apiv2][body] POST https://serviceusage.googleapis.com/v1/projects/productivity-345ab/services/firebasedatabase.googleapis.com:enable [omitted]
+[debug] [2024-03-07T22:36:57.937Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/productivity-345ab/services/firebasedatabase.googleapis.com [none]
+[debug] [2024-03-07T22:36:57.938Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/productivity-345ab/services/firebasedatabase.googleapis.com x-goog-quota-user=projects/productivity-345ab
+[debug] [2024-03-07T22:36:59.287Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/productivity-345ab/services/firebasedatabase.googleapis.com 200
+[debug] [2024-03-07T22:36:59.287Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/productivity-345ab/services/firebasedatabase.googleapis.com [omitted]
+[info] +  database: required API firebasedatabase.googleapis.com is enabled 
+[info] 
+[debug] [2024-03-07T22:36:59.292Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/productivity-345ab [none]
+[debug] [2024-03-07T22:37:00.002Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/productivity-345ab 200
+[debug] [2024-03-07T22:37:00.002Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/productivity-345ab {"projectId":"productivity-345ab","projectNumber":"735401720025","displayName":"Productivity","name":"projects/productivity-345ab","resources":{"hostingSite":"productivity-345ab"},"state":"ACTIVE","etag":"1_85df1e6e-ef85-460d-8f52-dea4cc3adfef"}
