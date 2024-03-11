@@ -1,6 +1,19 @@
 import './App.css';
-import Main from './pages/Main';
+import React from "react";
+
 import { initializeApp } from "firebase/app";
+
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+import Main from './pages/Main';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import ProfileBuilder from './pages/ProfileBuilder';
+
+
 
 function App() {
   // Your web app's Firebase configuration
@@ -12,18 +25,23 @@ function App() {
     storageBucket: "productivity-345ab.appspot.com",
     messagingSenderId: "735401720025",
     appId: "1:735401720025:web:bfcdc10be036763be166c8",
-    measurementId: "G-MQ68BTN13Y"
+    measurementId: "G-MQ68BTN13Y",
+    databaseURL: "https://productivity-345ab-default-rtdb.asia-southeast1.firebasedatabase.app"
   };
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
 
-  console.log(app);
-
   return (
-    <div className="App">
-      <Main />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Signup app={app} />} />
+        <Route path="/main" element={<Main app={app} />} />
+        <Route path="/login" element={<Login app={app} />} />
+        <Route path="/signup" element={<Signup app={app} />} />
+        <Route path="/profileSetup" element={<ProfileBuilder app={app} />} />
+      </Routes>
+    </Router>
   );
 }
 
