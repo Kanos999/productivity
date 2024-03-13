@@ -81,10 +81,10 @@ const MusicPlayer = ({ setPlayer, selectedMusic }) => {
 
 const MusicSelector = ({ activityInProgress, setSelectedMusic }) => {
   return (
-    <div>
+    <div className={`${activityInProgress !== -1 ? "w-1/4 opacity-1" : "w-0 opacity-0"}`}>
       <select className={`text-white bg-gray rounded-r-full py-2 text-md font-semibold
                         transition-all ease-in-out duration-300
-                        ${activityInProgress !== -1 ? "w-full opacity-1 px-6" : "w-0 opacity-0 px-0"}`}
+                        ${activityInProgress !== -1 ? "w-full px-6" : "w-0 px-0"}`}
           onChange={(event) => setSelectedMusic(event.target.value)}>
         <option value="">None</option>
         <option value="VZxzRSq9deQ">Lofi</option>
