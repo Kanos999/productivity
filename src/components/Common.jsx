@@ -1,15 +1,25 @@
 import React from 'react';
 //import { useNavigate } from "react-router-dom";
 
-
+const TextInput = ({ onChange, type, placeholder }) => {
+  return (
+    <input
+      onChange={onChange}
+      type={type}
+      className="bg-black border border-bone/60 text-white p-4 w-full my-4 rounded-lg
+                transition-all ease-in-out duration-300"
+      placeholder={placeholder}
+    />
+  );
+}
 
 const ActivityButton = ({ id, children, attention, onClick, currentActivity }) => {
   return (
     <div 
       onClick={onClick}
-      className={`p-2 translate-x-1/2 rounded-lg bg-white text-center text-black font-bold 
-                mb-6 transition-all ease-in-out duration-300 hover:cursor-pointer
-                ${currentActivity === id ? "ring-blue-500 ring-blue ring-4" : ""}`}>
+      className={`p-2 translate-x-1/2 rounded-lg border border-lightGray text-center font-bold 
+                mb-6 transition-all ease-in-out duration-200 hover:cursor-pointer hover:bg-gray
+                ${currentActivity === id ? "!bg-white !text-black" : "bg-black text-white"}`}>
       {children}
     </div>
   );
@@ -43,4 +53,4 @@ const Badge = ({children}) => {
   );
 }
 
-export { ActivityButton, MonthDivider, SessionCard, Badge };
+export { TextInput, ActivityButton, MonthDivider, SessionCard, Badge };

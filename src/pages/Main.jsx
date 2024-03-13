@@ -12,6 +12,7 @@ const Main = () => {
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [currentActivity, setCurrentActivity] = useState("");
   const [dialogState, setDialogState] = useState(false);
+  const [totalTime, setTotalTime] = useState(0);
 
   useEffect(() => {
     if (!localStorage.getItem("uid"))
@@ -26,6 +27,12 @@ const Main = () => {
     console.log("Current Activity:", currentActivity);
     let tmp = allSessions.filter(s => s.activity === currentActivity);
     setFilteredSessions(tmp);
+
+    let timeSum = 0;
+    tmp.forEach((s) => {
+      timeSum += s.time;
+    });
+    setTotalTime(timeSum);
   }, [currentActivity, allSessions]);
 
   const openDialog = () => {
@@ -51,7 +58,7 @@ const Main = () => {
     
       
       {/* LEFT SECTION */}
-      <div className="border-r border-r-lightGray mr-8 h-full w-20 pt-5">
+      <div className="border-r border-r-lightGray mr-8 h-full w-24 pt-5">
         {activities.map((activity) => {
           return(
             <ActivityButton
@@ -61,10 +68,14 @@ const Main = () => {
               onClick={() => setCurrentActivity(activity.id)}>{activity.name}</ActivityButton>);
         })}
         <div 
-          className="pt-1 pb-2 translate-x-1/2 rounded-full bg-black text-center text-xl text-white 
-                    font-bold border border-lightGray 
-                    transition ease-in-out duration-300 hover:cursor-pointer hover:bg-gray"
-          onClick={openDialog}>...</div>
+          className="translate-x-3/4"
+          onClick={openDialog}>
+            <div className="pt-1 pb-2 w-12 rounded-full bg-black text-center text-xl text-white 
+                            font-bold border border-lightGray 
+                            transition ease-in-out duration-300 hover:cursor-pointer hover:bg-gray">
+              ...
+            </div>
+          </div>
       </div>
 
       {/* MIDDLE SECTION */}
@@ -94,7 +105,9 @@ const Main = () => {
         <h2 className="text-2xl font-bold">Stats</h2>
 
         <Badge>Total time spent</Badge>
-        <p>13 hours, 55 mins</p>
+        <p>{Math.floor(totalTime / 3600)} Hours,</p>  
+        <p>{Math.floor((totalTime % 3600)/60)} Minutes,</p> 
+        <p>{Math.floor(totalTime % 60)} Seconds </p>
 
         <Badge>Past week</Badge>
         <p>6 hours, 25 mins</p>

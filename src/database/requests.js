@@ -81,13 +81,16 @@ const getSessions = (callback) => {
   auth.authStateReady().then(() => {
     const sessionsRef = ref(db, 'sessions/' + auth.currentUser.uid);
     onValue(sessionsRef, (snapshot) => {
-      const data = Object.values(snapshot.val());
-      const flattenedArray = Object.entries(data).map(([id, value]) => ({
-        id,
-        ...value
-      }));
-      console.log(flattenedArray)
-      callback(flattenedArray);
+      if (!snapshot.val()) callback([]);
+      else {
+        const data = Object.values(snapshot.val());
+        const flattenedArray = Object.entries(data).map(([id, value]) => ({
+          id,
+          ...value
+        }));
+        console.log(flattenedArray)
+        callback(flattenedArray);
+      }
     });
   });
 };

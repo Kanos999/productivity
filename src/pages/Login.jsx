@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { login } from '../database/requests';
+import { TextInput } from '../components/Common';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -22,18 +23,16 @@ const Login = () => {
   return (
     <div className="absolute h-full w-full bg-black flex flex-col items-center">
       <div className="absolute w-full h-60 bg-gray"></div>
-      <div className="z-20 w-1/2 max-w-[400px] p-10 mt-20 bg-black justify-self-center flex flex-col items-center border border-bone/40 rounded-xl">
+      <div className="z-20 w-5/6 md:w-1/2 max-w-[400px] p-10 mt-20 bg-black justify-self-center flex flex-col items-center border border-bone/40 rounded-xl">
         <h2 className="text-2xl text-white mb-10 text-center font-bold">Login</h2>
-        <input
+        <TextInput
           onChange={(e) => {setEmailInput(e.target.value)}}
           type="text"
-          className="bg-black border border-bone/60 text-white p-4 w-full my-4 rounded-lg"
           placeholder="Email"
         />
-        <input
+        <TextInput
           onChange={(e) => {setPasswordInput(e.target.value)}}
           type="password"
-          className="bg-black border border-bone/60 text-white p-4 w-full my-4 rounded-lg"
           placeholder="Password"
         />
         <button className="bg-bone/40 text-white mx-aut font-bold text-xl p-4 my-5 text-center rounded-full" onClick={handleSubmit}>Continue</button>
