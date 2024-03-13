@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import '../App.css';
 import { useNavigate } from "react-router-dom";
 import { getActivities, getSessions } from '../database/requests';
 
@@ -58,7 +59,7 @@ const Main = () => {
     
       
       {/* LEFT SECTION */}
-      <div className="border-r border-r-lightGray mr-8 h-full w-24 pt-5">
+      <div className="border-r border-r-lightGray mr-8 h-full w-24 pt-5 z-20">
         {activities.map((activity) => {
           return(
             <ActivityButton
@@ -84,19 +85,21 @@ const Main = () => {
         {/* Control button group for time and music */}
         <MusicController currentActivity={currentActivity} />
 
-        {/* List of previous times */}
-        <MonthDivider month="April" />
+        <div className="h-auto w-5/6 overflow-y-auto noScrollbar">
+          {/* List of previous times */}
+          <MonthDivider month="April" />
 
-        {/* Recorded time card */}
-        <div className="grid grid-cols-2 gap-6 w-5/6 my-10">
-          {filteredSessions.map((session) => {
-            return(
-              <SessionCard
-                time={session.time}
-                date={session.date}
-                rating={80} />
-            )
-          })}
+          {/* Recorded time card */}
+          <div className="grid grid-cols-2 xl:grid-cols-3 gap-6 w-full my-10">
+            {filteredSessions.map((session) => {
+              return(
+                <SessionCard
+                  time={session.time}
+                  date={session.date}
+                  rating={80} />
+              )
+            })}
+          </div>
         </div>
       </div>
 

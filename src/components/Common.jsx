@@ -17,7 +17,7 @@ const ActivityButton = ({ id, children, attention, onClick, currentActivity }) =
   return (
     <div 
       onClick={onClick}
-      className={`p-2 translate-x-1/2 rounded-lg border border-lightGray text-center font-bold 
+      className={`p-2 translate-x-1/2 z-20 rounded-lg border border-lightGray text-center font-bold 
                 mb-6 transition-all ease-in-out duration-200 hover:cursor-pointer hover:bg-gray
                 ${currentActivity === id ? "!bg-white !text-black" : "bg-black text-white"}`}>
       {children}
@@ -27,7 +27,7 @@ const ActivityButton = ({ id, children, attention, onClick, currentActivity }) =
 
 const MonthDivider = ({month}) => {
   return (
-    <div className="w-5/6 border-b border-b-lightGray flex flex-col items-center">
+    <div className="w-full border-b border-b-lightGray flex flex-col items-center">
       <div className="translate-y-1/2 rounded-full bg-gray text-white text-center p-2 w-40">{month}</div>
     </div>
   );

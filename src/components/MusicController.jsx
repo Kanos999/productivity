@@ -35,12 +35,14 @@ const MusicController = ({currentActivity}) => {
   }, [elapsed, activityInProgress]);
 
   return (
-    <div className="w-4/6 h-auto justify-self-center flex flex-row my-10 rounded-full overflow-visible justify-between items-center bg-gray">
-      <StartStopButton activityInProgress={activityInProgress} startStopActivity={startStopActivity}/>
-      <Timer activityInProgress={activityInProgress}>{elapsed}</Timer>
-      <MusicSelector activityInProgress={activityInProgress} setSelectedMusic={setSelectedMusic}>Music Choice</MusicSelector>
-      <MusicPlayer setPlayer={setPlayer} selectedMusic={selectedMusic} />
-    </div>  
+    <div className="shadow-lg shadow-black w-full z-10 px-24 mr-2">
+      <div className="h-auto justify-self-center flex flex-row my-10 rounded-full overflow-visible justify-between items-center bg-gray">
+        <StartStopButton activityInProgress={activityInProgress} startStopActivity={startStopActivity}/>
+        <Timer activityInProgress={activityInProgress}>{elapsed}</Timer>
+        <MusicSelector activityInProgress={activityInProgress} setSelectedMusic={setSelectedMusic}>Music Choice</MusicSelector>
+        <MusicPlayer setPlayer={setPlayer} selectedMusic={selectedMusic} />
+      </div>
+    </div>
   );
 }
 
