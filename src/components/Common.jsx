@@ -25,10 +25,10 @@ const MonthDivider = ({month}) => {
 
 const SessionCard = ({time, date, rating}) => {
   return (
-    <div className="grid grid-cols-2 gap-6 text-white my-10 w-5/6">
+    <div className="text-white">
       <div className="flex flex-row rounded-lg border border-lightGray text-left items-end">
         <div className="grow">
-          <h2 className="ml-6 mt-6 font-bold text-xl">{time}</h2>
+          <h2 className="ml-6 mt-6 font-bold text-xl">{Math.floor(time / 60)}:{("0" + time % 60).slice(-2)}</h2>
           <p className="ml-6 mb-6 text-md text-bone">{date}</p>
         </div>
         <div className="r-0 rounded-lg w-6 bg-bone" style={{height: rating}}></div>

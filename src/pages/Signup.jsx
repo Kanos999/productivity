@@ -1,29 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { signup } from '../database/requests';
 
-import { getAuth, createUserWithEmailAndPassword  } from "firebase/auth";
-
-const Signup = ({ app }) => {
+const Signup = () => {
   const navigate = useNavigate();
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
 
-  // Initialize Firebase Authentication and get a reference to the service
-  const auth = getAuth(app);
-
   const handleSubmit = () => {
-    createUserWithEmailAndPassword(auth, emailInput, passwordInput)
-    .then((userCredential) => {
-      // Signed up 
-      const user = userCredential.user;
-      localStorage.setItem("uid", user.uid);
-      localStorage.setItem("accessToken", user.accessToken);
-      navigate('/profileSetup')
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage)
+    signup(emailInput, passwordInput, (res) => {
+      console.log(res);
+      localStorage.setItem('uid', res.uid);
+      navigate("/main");
     });
   };
   

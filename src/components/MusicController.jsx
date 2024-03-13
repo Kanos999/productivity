@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import YouTube from 'react-youtube';
+import { postSession } from '../database/requests';
 
 
 const MusicController = ({currentActivity}) => {
@@ -12,9 +13,9 @@ const MusicController = ({currentActivity}) => {
     // Toggle the activity state
     if (activityInProgress !== -1) {
       player.pauseVideo();
-      
-      setActivityInProgress(-1);
+      postSession(localStorage.getItem("uid"), activityInProgress, elapsed);
       setElapsed(0);
+      setActivityInProgress(-1);
     }
     else {
       player.playVideo();
@@ -22,20 +23,38 @@ const MusicController = ({currentActivity}) => {
     }
   }
 
+  useEffect(() => {
+    if (activityInProgress === -1) return;
+    //Implementing the setInterval method
+    const interval = setInterval(() => {
+      setElapsed(elapsed + 1);
+    }, 1000);
+
+    //Clearing the interval
+    return () => clearInterval(interval);
+  }, [elapsed, activityInProgress]);
+
   return (
     <div className="w-4/6 h-auto justify-self-center flex flex-row my-10 rounded-full overflow-visible justify-between items-center bg-gray">
-      <button 
-        className="text-white py-2 pl-6 pr-10 text-md font-semibold"
-        onClick={startStopActivity}>
-        Start Timer
-      </button>
-      <Timer>{elapsed}</Timer>
-      <MusicSelector setSelectedMusic={setSelectedMusic}>Music Choice</MusicSelector>
+      <StartStopButton activityInProgress={activityInProgress} startStopActivity={startStopActivity}/>
+      <Timer activityInProgress={activityInProgress}>{elapsed}</Timer>
+      <MusicSelector activityInProgress={activityInProgress} setSelectedMusic={setSelectedMusic}>Music Choice</MusicSelector>
       <MusicPlayer setPlayer={setPlayer} selectedMusic={selectedMusic} />
     </div>  
   );
 }
 
+const StartStopButton = ({ activityInProgress, startStopActivity }) => {
+
+  return (
+    <button 
+      className={`text-white py-2 px-6 text-md font-semibold transition-all ease-in-out duration-300
+                ${activityInProgress !== -1 ? "w-1/4" : "w-full"}`}
+      onClick={startStopActivity}>
+      {activityInProgress === -1 ? <>Start <br></br> Timer</> : <>Stop <br></br> Timer</>}
+    </button>
+  );
+}
 
 const MusicPlayer = ({ setPlayer, selectedMusic }) => {
   const opts = {
@@ -58,10 +77,12 @@ const MusicPlayer = ({ setPlayer, selectedMusic }) => {
   );
 }
 
-const MusicSelector = ({ setPlayer, setSelectedMusic }) => {
+const MusicSelector = ({ activityInProgress, setSelectedMusic }) => {
   return (
     <div>
-      <select className="text-white bg-gray rounded-r-full py-2 pr-6 pl-10 text-md font-semibold" 
+      <select className={`text-white bg-gray rounded-r-full py-2 text-md font-semibold
+                        transition-all ease-in-out duration-300
+                        ${activityInProgress !== -1 ? "w-full opacity-1 px-6" : "w-0 opacity-0 px-0"}`}
           onChange={(event) => setSelectedMusic(event.target.value)}>
         <option value="">None</option>
         <option value="VZxzRSq9deQ">Lofi</option>
@@ -73,10 +94,11 @@ const MusicSelector = ({ setPlayer, setSelectedMusic }) => {
 }
 
 
-const Timer = ({inProgress, children}) => {
-
+const Timer = ({ activityInProgress, children}) => {
   return (
-    <div className="text-white py-2 text-md text-center font-bold grow border-x border-x-bone/10">
+    <div className={`text-white py-2 text-md text-center font-bold border-x border-x-bone/10 
+                    transition-all ease-in-out duration-300
+                    ${activityInProgress !== -1 ? "grow opacity-1" : "w-0 opacity-0"}`}>
       {Math.floor(children / 60)}:{("0" + children % 60).slice(-2)}
     </div>
   );

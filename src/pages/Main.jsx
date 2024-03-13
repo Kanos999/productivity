@@ -1,40 +1,32 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import { getActivities, getSessions } from '../database/requests';
 
 import { ActivityButton, MonthDivider, SessionCard, Badge } from '../components/Common';
 import MusicController from '../components/MusicController';
-import { getDatabase, ref, onValue } from "firebase/database";
-
-//import { getActivities } from '../database/requests';
-
 
 const Main = () => {
-  const [activities, setActivities] = useState(JSON.parse(localStorage.getItem("activities")));
-  const [allSessions, setAllSessions] = useState(JSON.parse(localStorage.getItem("allSessions")));
+  const navigate = useNavigate();
+  const [activities, setActivities] = useState([]);
+  const [allSessions, setAllSessions] = useState([]);
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [currentActivity, setCurrentActivity] = useState("");
   const [dialogState, setDialogState] = useState(false);
 
-  const db = getDatabase();
-
   useEffect(() => {
-    const activitiesRef = ref(db, 'activities/' + localStorage.getItem("uid"));
-    onValue(activitiesRef, (snapshot) => {
-      const data = snapshot.val();
-      const flattenedArray = Object.entries(data).map(([id, value]) => ({
-        id,
-        ...value
-      }));
-      setActivities(flattenedArray);
-      localStorage.setItem("activities", JSON.stringify(flattenedArray));
-    });
+    if (!localStorage.getItem("uid"))
+      navigate("/login");
+    
+    getActivities(setActivities);
+    getSessions(setAllSessions);
+  }, [navigate]);
 
-    const sessionsRef = ref(db, 'sessions/' + localStorage.getItem("uid"));
-    onValue(sessionsRef, (snapshot) => {
-      const data = Object.values(snapshot.val());
-      setAllSessions(data);
-      localStorage.setItem("allSessions", JSON.stringify(data));
-    });
-  }, [db]);
+  // Filter sessions per activity
+  useEffect(() => {
+    console.log("Current Activity:", currentActivity);
+    let tmp = allSessions.filter(s => s.activity === currentActivity);
+    setFilteredSessions(tmp);
+  }, [currentActivity, allSessions]);
 
   const openDialog = () => {
     setDialogState(true);
@@ -48,12 +40,10 @@ const Main = () => {
     <div className="absolute h-full w-full bg-black flex flex-row">
 
       {/* Activities Dialog */}
-    
-      <div 
-        onClick={closeDialog}
-        className={`absolute h-full w-full bg-black/40 grid place-content-center 
+      <div className={`absolute h-full w-full grid place-content-center 
                     transition-opacity ease-in-out duration-300 ${dialogState ? "opacity-1 z-30" : "opacity-0 -z-30"}`}>
-        <div className="bg-gray rounded-xl p-10 pointer-events-none">
+        <div onClick={closeDialog} className="absolute h-full w-full bg-black/40 z-10"></div>
+        <div className="bg-gray rounded-xl p-10 z-30">
           <h2 className="text-2xl text-white font-bold">Edit Activities</h2>
           <button className="border border-lightGray p-4 rounded-lg text-xl text-white font-bold">Save Changes</button>
         </div>
@@ -81,16 +71,22 @@ const Main = () => {
       <div className="h-full grow flex flex-col items-center">
         
         {/* Control button group for time and music */}
-        <MusicController />
+        <MusicController currentActivity={currentActivity} />
 
         {/* List of previous times */}
         <MonthDivider month="April" />
 
         {/* Recorded time card */}
-        <SessionCard
-          time="1:20:45"
-          date="13/04/2024"
-          rating={80} />
+        <div className="grid grid-cols-2 gap-6 w-5/6 my-10">
+          {filteredSessions.map((session) => {
+            return(
+              <SessionCard
+                time={session.time}
+                date={session.date}
+                rating={80} />
+            )
+          })}
+        </div>
       </div>
 
       {/* RIGHT SECTION */}

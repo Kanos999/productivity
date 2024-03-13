@@ -1,31 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { login } from '../database/requests';
 
-import { getAuth, signInWithEmailAndPassword  } from "firebase/auth";
-
-const Login = ({ app }) => {
+const Login = () => {
   const navigate = useNavigate();
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
 
-  // Initialize Firebase Authentication and get a reference to the service
-  const auth = getAuth(app);
-
   const handleSubmit = () => {
-    signInWithEmailAndPassword(auth, emailInput, passwordInput)
-    .then((userCredential) => {
-      // Logged in 
-      const user = userCredential.user;
-      localStorage.setItem("uid", user.uid);
-      localStorage.setItem("accessToken", user.accessToken);
-      navigate('/main')
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage)
+    login(emailInput, passwordInput, (res) => {
+      console.log(res);
+      localStorage.setItem('uid', res.uid);
+      navigate("/main")
     });
   };
+
+  useEffect(() => {
+    //if (localStorage.getItem("uid")) navigate("/main");
+  }, [])
   
   return (
     <div className="absolute h-full w-full bg-black flex flex-col items-center">
