@@ -10,7 +10,8 @@ module.exports = {
       'lightGray': '#4b4a4b',
       'white': '#FFFFFF',
       'ghost': '#F0F0F0',
-      'bone': '#C0C0C0'
+      'bone': '#C0C0C0',
+      'error': '#D32F2F'
     },
     extend: {},
   },

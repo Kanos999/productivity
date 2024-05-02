@@ -1,4 +1,4 @@
-import { ref, set, push, onValue } from "firebase/database";
+import { ref, set, push, onValue, remove } from "firebase/database";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, setPersistence, browserLocalPersistence  } from "firebase/auth";
 import { db, auth } from "../firebase.config"
 
@@ -67,11 +67,13 @@ const getActivities = (callback) => {
     const activitiesRef = ref(db, 'activities/' + auth.currentUser.uid);
     onValue(activitiesRef, (snapshot) => {
       const data = snapshot.val();
-      const flattenedArray = Object.entries(data).map(([id, value]) => ({
-        id,
-        ...value
-      }));
-      callback(flattenedArray);
+      if (data) {
+        const flattenedArray = Object.entries(data).map(([id, value]) => ({
+          id,
+          ...value
+        }));
+        callback(flattenedArray);
+      }
     }, console.log);
   });
 };
@@ -96,7 +98,7 @@ const getSessions = (callback) => {
 };
 
 const postSession = (userId, activity, time) => {
-  console.log("Posting activity:", userId)
+  console.log("Posting session:", userId, activity, time)
 
   // Initialise activites for user
   const sessionsRef = ref(db, 'sessions/' + userId);
@@ -108,11 +110,33 @@ const postSession = (userId, activity, time) => {
   });
 };
 
+const addActivity = (userId, name) => {
+  console.log("Posting activity:", userId)
+
+  // Initialise activites for user
+  const activityRef = ref(db, 'activities/' + userId);
+  const newActivityRef = push(activityRef);
+  set(newActivityRef, {
+    name: name,
+    attention: 1,
+  });
+};
+
+const removeActivity = (userId, activityId) => {
+  console.log("Removing activity:", userId, activityId)
+
+  // Initialise activites for user
+  const activityRef = ref(db, `activities/${userId}/${activityId}`);
+  remove(activityRef);
+};
+
 export { 
   login,
   signup,
   initialiseAccount, 
   getActivities, 
   getSessions, 
-  postSession 
+  postSession,
+  addActivity,
+  removeActivity
 };

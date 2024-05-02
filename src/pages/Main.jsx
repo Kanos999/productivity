@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { useNavigate } from "react-router-dom";
-import { getActivities, getSessions } from '../database/requests';
+import { getActivities, getSessions, addActivity, removeActivity } from '../database/requests';
 
-import { ActivityButton, MonthDivider, SessionCard, Badge } from '../components/Common';
+import { ActivityButton, MonthDivider, SessionCard, Badge, TextInput, ConfirmationModal } from '../components/Common';
 import MusicController from '../components/MusicController';
 
 const Main = () => {
@@ -13,7 +13,11 @@ const Main = () => {
   const [filteredSessions, setFilteredSessions] = useState([]);
   const [currentActivity, setCurrentActivity] = useState("");
   const [dialogState, setDialogState] = useState(false);
+  const [confirmationModalState, setConfirmationModalState] = useState(false);
   const [totalTime, setTotalTime] = useState(0);
+  const [newActivityInput, setNewActivityInput] = useState("");
+  const [activityToBeDeleted, setActivityToBeDeleted] = useState("");
+
 
   useEffect(() => {
     if (!localStorage.getItem("uid"))
@@ -46,6 +50,15 @@ const Main = () => {
 
   return (
     <div className="absolute h-full w-full bg-black flex flex-row">
+      <ConfirmationModal 
+        state={confirmationModalState} 
+        close={() => { setConfirmationModalState(false) }} 
+        title={"Delete activity"} 
+        body={"Are you sure you want to delete this activity?"} 
+        callBack={() => {
+          removeActivity(localStorage.getItem("uid"), activityToBeDeleted)
+          setConfirmationModalState(false) 
+        }} />
 
       {/* Activities Dialog */}
       <div className={`absolute h-full w-full grid place-content-center 
@@ -53,7 +66,32 @@ const Main = () => {
         <div onClick={closeDialog} className="absolute h-full w-full bg-black/40 z-10"></div>
         <div className="bg-gray rounded-xl p-10 z-30">
           <h2 className="text-2xl text-white font-bold">Edit Activities</h2>
-          <button className="border border-lightGray p-4 rounded-lg text-xl text-white font-bold">Save Changes</button>
+          {activities.map((activity) => {
+            return(
+              <div
+                key={activity.id}
+                className="w-full border-b p-4 flex flex-row justify-between text-white border-b-lightGray hover-button">
+                  <div>{activity.name}</div>
+                  <span 
+                    onClick={() => { 
+                      setActivityToBeDeleted(activity.id)
+                      setConfirmationModalState(true);
+                    }}
+                    className="material-symbols-outlined opacity-0 hover-button--on">
+                      delete
+                  </span>
+              </div>);
+          })}
+          <TextInput
+            onChange={(e) => {setNewActivityInput(e.target.value)}}
+            type="text"
+            placeholder="New activity"
+          />
+          <button 
+            onClick={() => { addActivity(localStorage.getItem("uid"), newActivityInput) }}
+            className="border border-lightGray p-4 rounded-lg text-xl text-white font-bold">
+            Save Changes
+          </button>
         </div>
       </div>
     

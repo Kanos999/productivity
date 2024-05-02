@@ -53,4 +53,29 @@ const Badge = ({children}) => {
   );
 }
 
-export { TextInput, ActivityButton, MonthDivider, SessionCard, Badge };
+const ConfirmationModal = ({state, close, title, body, callBack}) => {
+  return (
+    <div className={`absolute h-full w-full grid place-content-center 
+                    transition-opacity ease-in-out duration-300 ${state ? "opacity-1 z-40" : "opacity-0 -z-40"}`}>
+      <div onClick={close} className="absolute h-full w-full bg-black/60 z-10"></div>
+      <div className="bg-gray rounded-xl p-10 z-30">
+        <h2 className="w-full text-center text-2xl text-white font-bold">{title}</h2>
+        <div className="text-lightGray">{body}</div>
+        <div className="flex flex-row w-full mt-4">
+          <button 
+            onClick={close}
+            className="border border-lightGray grow mr-2 p-4 rounded-lg text-xl text-white font-bold">
+            Cancel
+          </button>
+          <button 
+            onClick={callBack}
+            className="border border-lightGray grow ml-2 p-4 rounded-lg text-xl text-white font-bold bg-error">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export { TextInput, ActivityButton, MonthDivider, SessionCard, Badge, ConfirmationModal };
